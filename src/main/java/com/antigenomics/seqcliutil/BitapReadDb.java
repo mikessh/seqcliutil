@@ -4,18 +4,22 @@ import com.milaboratory.core.io.sequence.SingleRead;
 import com.milaboratory.core.motif.BitapPattern;
 
 public class BitapReadDb extends IterableNucleotideDb {
-    private final float identityPercent;
+    private final float mismatchFraction;
 
-    public BitapReadDb(boolean fullLengthMatching, float identityPercent) {
+    public BitapReadDb(boolean fullLengthMatching, float mismatchFraction) {
         super(fullLengthMatching);
-        this.identityPercent = identityPercent;
+        this.mismatchFraction = mismatchFraction;
+
+        if (mismatchFraction < 0 || mismatchFraction > 1) {
+            throw new IllegalArgumentException("Parameter 'mismatchFraction' should be in [0, 1].");
+        }
     }
 
     @Override
     public boolean contains(SingleRead record) {
         final BitapPattern pattern = record.getData().getSequence().toMotif().getBitapPattern();
         final int len = record.getData().size();
-        final int mismatches = (int) (len * (1.0 - identityPercent));
+        final int mismatches = (int) (len * mismatchFraction);
 
         return fullLengthMatching ?
                 sequences.parallelStream().anyMatch(dbSeq -> {
