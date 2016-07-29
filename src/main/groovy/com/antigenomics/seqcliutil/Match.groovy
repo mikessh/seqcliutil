@@ -33,8 +33,8 @@ def db = opt.'i' ? new BitapReadDb(fullLength, (opt.'i').toFloat()) :
         new ExactMatchReadDb(fullLength)
 
 def dbFileName = opt.arguments()[0],
-    queryFileName = opt.arguments()[0],
-    outputFileName = opt.arguments()[0]
+    queryFileName = opt.arguments()[1],
+    outputFileName = opt.arguments()[2]
 
 db.addReads(new FastaSequenceReaderWrapper(new FastaReader(dbFileName, NucleotideSequence.ALPHABET), true))
 

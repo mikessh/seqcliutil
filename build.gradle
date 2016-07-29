@@ -8,12 +8,14 @@ repositories {
     mavenCentral()
 }
 
+mainClassName = 'com.antigenomics.seqcliutil.Main'
+
 jar {
     baseName = "seqcliutil"
     version = "0.0.1"
 
     manifest {
-        attributes "Main-Class": "com.antigenomics.seqcliutil.Main"
+        attributes "Main-Class": "$mainClassName"
     }
 
     from {
@@ -33,6 +35,7 @@ sourceSets {
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.3.1'
     compile 'org.codehaus.gpars:gpars:1.0.0'
+    compile 'commons-cli:commons-cli:1.2'
     compile 'junit:junit:4.12'
     compile 'com.milaboratory:milib:1.2'
 }
